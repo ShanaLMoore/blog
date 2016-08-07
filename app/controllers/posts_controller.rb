@@ -1,7 +1,6 @@
 class PostsController < ApplicationController
 before_action :authenticate_user!, except: [:index, :show]
 
-
   def index
     @posts = Post.all.order('created_at DESC')
   end
@@ -47,5 +46,11 @@ before_action :authenticate_user!, except: [:index, :show]
   private
     def post_params
       params.require(:post).permit(:title, :body)
+    end
+
+    def admin?
+      if current_user.email == "shana.lavina.moore@gmail.com"
+        current_user.update_attribute :admin, true
+      end
     end
 end
